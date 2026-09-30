@@ -30,7 +30,7 @@ export default function App() {
 
   return (
     <>
-      <Background tint={tint} night={step === 'intro'} />
+      <Background tint={tint} />
       <AnimatePresence mode="wait">
         {step === 'intro' && <IntroScreen key="intro" onNext={() => setStep('problem')} />}
         {step === 'problem' && <ProblemScreen key="problem" onNext={() => setStep('choice')} />}

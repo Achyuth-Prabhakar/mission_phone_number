@@ -4,13 +4,13 @@ export type Tint = 'default' | 'phone' | 'beach' | 'coffee'
 
 // Soft color fields behind every screen. The tint shifts when a choice card is hovered.
 const tints: Record<Tint, [string, string, string]> = {
-  default: ['#f7c3d3', '#e9c6e6', '#ffd9d4'],
-  phone: ['#f4a9c4', '#e3b5e2', '#ffd3dc'],
-  beach: ['#ffc2b0', '#f7b6cf', '#ffe0c2'],
-  coffee: ['#e9c2b8', '#dcb2cf', '#f6d8cc'],
+  default: ['#f8c8d8', '#f3d3e6', '#fde3ec'],
+  phone: ['#f5b5cc', '#efc4de', '#fddce8'],
+  beach: ['#f7bfd3', '#f1cbe0', '#fee6ee'],
+  coffee: ['#f4c3d3', '#eccbe0', '#fde4ec'],
 }
 
-export default function Background({ tint = 'default', night = false }: { tint?: Tint; night?: boolean }) {
+export default function Background({ tint = 'default' }: { tint?: Tint }) {
   const [a, b, c] = tints[tint]
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-blush">
@@ -31,14 +31,6 @@ export default function Background({ tint = 'default', night = false }: { tint?:
         animate={{ backgroundColor: c, x: [0, 20, 0] }}
         transition={{ backgroundColor: { duration: 0.8 }, x: { duration: 22, repeat: Infinity, ease: 'easeInOut' } }}
         style={{ opacity: 0.5 }}
-      />
-      {/* Dark cinematic backdrop for the intro; fades out as the pink world takes over. */}
-      <motion.div
-        className="absolute inset-0"
-        style={{ background: 'radial-gradient(ellipse 80% 55% at 85% 45%, #3a2a1c 0%, #1a1310 45%, #0d0a09 100%)' }}
-        initial={false}
-        animate={{ opacity: night ? 1 : 0 }}
-        transition={{ duration: 0.9 }}
       />
     </div>
   )
