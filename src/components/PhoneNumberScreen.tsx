@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState, type ReactNode } from 'react'
 import { content, type Venue } from '../content'
+import { dbEnabled } from '../notify'
 import { Button, Glass, Headline, Item, Screen } from './ui'
 
 /** Formats digits as (555) 555-5555 while typing. Purely cosmetic; nothing leaves this component. */
@@ -60,6 +61,7 @@ export default function PhoneNumberScreen({ headline, children, buttonLabel, onS
         <Button type="submit" disabled={!valid} className="mt-5">
           {buttonLabel}
         </Button>
+        {dbEnabled && <p className="mt-3 text-center text-sm text-plum-soft/80">{content.phoneInput.note}</p>}
         <button
           type="button"
           onClick={() => setDeclines((n) => n + 1)}

@@ -68,6 +68,8 @@ export const content = {
   phoneInput: {
     label: 'Your number:',
     placeholder: '(555) 555-5555',
+    // Shown under the number box only when the database below is configured.
+    note: 'This goes straight to me. Nobody else.',
     // A joke escape hatch: it shakes the screen and always says no.
     decline: {
       button: 'Don’t want to give your number? Click here to continue.',
@@ -110,6 +112,13 @@ export const content = {
     line: 'I can work with that.',
     ask: 'But I still need your number.',
     button: 'Coffee it is →',
+  },
+
+  // Supabase project that stores what she submits (see supabase.sql and the README).
+  // Both values are public by design (the anon key can only add rows). Leave them empty to send nothing.
+  db: {
+    url: '',
+    anonKey: '',
   },
 
   venueLabels: {

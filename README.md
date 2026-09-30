@@ -11,5 +11,5 @@ npm run build    # static site in dist/
 ```
 
 - **Copy** lives in `src/content.ts`. Change the wording there.
-- **Privacy:** the phone number stays in React state only. No backend, database or analytics.
+- **Saving her answers:** when Karlie saves her number, and again when she picks a day, the page adds a row to a Supabase table (`supabase.sql`). Fill in `db.url` and `db.anonKey` in `src/content.ts`. With both empty, nothing is sent. The anon key can only add rows; only you can read them, in the Supabase dashboard (Table Editor → `events`). The page shows "This goes straight to me." only when this is on. No analytics.
 - **Optional "Text me" button:** set `textMe.number` in `src/content.ts` to your number. The final screen then shows a button that opens Karlie's messages app with a prefilled text to you. She decides whether to send it. Leave it empty to hide the button.

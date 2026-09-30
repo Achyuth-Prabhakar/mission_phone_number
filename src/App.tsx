@@ -13,6 +13,7 @@ import PhoneNumberScreen, { VenuePickScreen } from './components/PhoneNumberScre
 import ProblemScreen from './components/ProblemScreen'
 import { Body, Item } from './components/ui'
 import { content, type Choice, type Venue } from './content'
+import { saveDate, saveNumber } from './notify'
 
 type Step =
   | 'intro'
@@ -34,9 +35,8 @@ export default function App() {
   const [venue, setVenue] = useState<Venue>('coffee')
   const [activity, setActivity] = useState('')
   const [day, setDay] = useState('')
-  // True once she has typed her number. The number itself is not kept: it is never sent or stored.
-  // It reaches the owner only if she sends the prefilled text on the final screen.
-  const [gaveNumber, setGaveNumber] = useState(false)
+  const [phone, setPhone] = useState('')
+  const gaveNumber = phone !== ''
 
   // Every forward move records where she came from, so the back button can retrace it.
   const go = (next: Step) => {
@@ -58,8 +58,9 @@ export default function App() {
     setVenue(v)
     go('date')
   }
-  const gotNumber = (v: Venue) => {
-    setGaveNumber(true)
+  const gotNumber = (p: string, v: Venue) => {
+    setPhone(p)
+    void saveNumber(p, v)
     goDate(v)
   }
   const pickVenue = (v: Venue) => {
@@ -117,8 +118,9 @@ export default function App() {
             key="phone"
             headline={content.phonePath.headline}
             buttonLabel={content.phonePath.button}
-            onSubmit={() => {
-              setGaveNumber(true)
+            onSubmit={(p) => {
+              setPhone(p)
+              void saveNumber(p)
               go('venue')
             }}
           >
@@ -128,8 +130,8 @@ export default function App() {
           </PhoneNumberScreen>
         )}
         {step === 'venue' && <VenuePickScreen key="venue" onPick={pickVenue} />}
-        {step === 'beach' && <BeachScreen key="beach" onSubmit={() => gotNumber('beach')} />}
-        {step === 'coffee' && <CoffeeScreen key="coffee" onSubmit={() => gotNumber('coffee')} />}
+        {step === 'beach' && <BeachScreen key="beach" onSubmit={(p) => gotNumber(p, 'beach')} />}
+        {step === 'coffee' && <CoffeeScreen key="coffee" onSubmit={(p) => gotNumber(p, 'coffee')} />}
         {step === 'bucket' && (
           <BucketScreen
             key="bucket"
@@ -146,7 +148,7 @@ export default function App() {
             key="bucketPhone"
             headline={content.bucketPath.phoneHeadline}
             buttonLabel={content.bucketPath.phoneButton}
-            onSubmit={() => gotNumber('bucket')}
+            onSubmit={(p) => gotNumber(p, 'bucket')}
           >
             <Item className="mt-6">
               <Body className="font-medium text-plum">{content.bucketPath.phoneLine}</Body>
@@ -163,6 +165,7 @@ export default function App() {
             activity={activity}
             onSubmit={(d) => {
               setDay(d)
+              void saveDate(phone, venue, d, activity)
               setTint(venue === 'bucket' ? 'default' : venue)
               go('final')
             }}
