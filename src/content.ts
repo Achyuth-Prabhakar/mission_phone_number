@@ -121,8 +121,8 @@ export const content = {
   // final screen. It opens Karlie's messages app with a prefilled text to you; she decides
   // whether to send it. Leave it empty and the button stays hidden.
   textMe: {
-    number: '',
-    button: 'Text me so I have yours',
+    number: '+17732806983',
+    button: 'Text me so I have yours →',
     message: (venue: Venue, day: string) =>
       `Hi, it's Karlie. ${venue === 'beach' ? 'Beach' : 'Coffee'}${day ? ` on ${day}` : ''}. See you then :)`,
   },

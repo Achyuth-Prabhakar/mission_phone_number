@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { content, type Venue } from '../content'
-import { Body, Button, Headline, Item, Screen } from './ui'
+import { Body, Headline, Item, Screen } from './ui'
 
 // Small drifting dots as a quiet celebration; fixed positions so layout never shifts.
 const dots = Array.from({ length: 14 }, (_, i) => ({
@@ -64,11 +64,13 @@ export default function FinalScreen({ venue, day }: { venue: Venue; day: string 
       </Item>
       {sms && (
         <Item className="mt-8">
-          <a href={sms} className="block">
-            <Button type="button" variant="ghost" tabIndex={-1}>
-              {t.button}
-            </Button>
-          </a>
+          <motion.a
+            href={sms}
+            whileTap={{ scale: 0.97 }}
+            className="inline-flex min-h-14 w-full items-center justify-center rounded-full bg-pink px-7 text-[17px] font-medium text-white shadow-[0_10px_30px_-10px_rgba(214,51,111,0.7)] transition-colors hover:bg-pink-deep focus-visible:ring-4 focus-visible:ring-pink/30 focus-visible:outline-none"
+          >
+            {t.button}
+          </motion.a>
         </Item>
       )}
     </Screen>
