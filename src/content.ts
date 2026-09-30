@@ -52,7 +52,7 @@ export const content = {
         title: 'Let’s get coffee or chai.',
         description: 'A much more normal proposal.',
         small: 'We can pretend we’re being casual about this.',
-        button: 'Coffee sounds good',
+        button: 'Coffee/chai sounds good',
       },
       {
         id: 'bucket',
