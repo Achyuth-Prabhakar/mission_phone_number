@@ -16,11 +16,11 @@ function formatDay(day: string) {
   return new Date(y, m - 1, d).toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })
 }
 
-export default function FinalScreen({ venue, day }: { venue: Venue; day: string }) {
+export default function FinalScreen({ venue, day, activity }: { venue: Venue; day: string; activity: string }) {
   const c = content.final
   const t = content.textMe
   const pretty = formatDay(day)
-  const sms = t.number ? `sms:${t.number}?&body=${encodeURIComponent(t.message(venue, pretty))}` : ''
+  const sms = t.number ? `sms:${t.number}?&body=${encodeURIComponent(t.message(venue, pretty, activity))}` : ''
 
   return (
     <Screen>
@@ -54,7 +54,7 @@ export default function FinalScreen({ venue, day }: { venue: Venue; day: string 
         </ul>
         {pretty && (
           <p className="mt-3 text-center text-sm text-plum-soft">
-            {venue === 'beach' ? 'Beach' : 'Coffee'} · {pretty}
+            {venue === 'bucket' && activity ? activity : content.venueLabels[venue]} · {pretty}
           </p>
         )}
       </Item>

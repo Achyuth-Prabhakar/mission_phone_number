@@ -1,6 +1,6 @@
 // Every word on the site lives here, so the copy can be changed without touching components.
 
-export type Venue = 'beach' | 'coffee'
+export type Venue = 'beach' | 'coffee' | 'bucket'
 export type Choice = 'phone' | Venue
 
 export const content = {
@@ -18,7 +18,7 @@ export const content = {
   problem: {
     headline: 'Here’s the thing…',
     lines: [
-      'I’ve actually enjoyed talking to you.',
+      'I’d love to get a notification saying I got a message from Karlie.',
       'But I feel like Instagram DMs are starting to become an unnecessarily complicated way to get to know someone.',
     ],
     aside: 'Technology has failed us.',
@@ -28,7 +28,7 @@ export const content = {
 
   choice: {
     headline: 'Choose your next move.',
-    sub: 'I’ve narrowed it down to three very reasonable options.',
+    sub: 'I’ve narrowed it down to four very reasonable options.',
     options: [
       {
         id: 'phone',
@@ -49,10 +49,18 @@ export const content = {
       {
         id: 'coffee',
         icon: '☕',
-        title: 'Let’s get coffee.',
+        title: 'Let’s get coffee or chai.',
         description: 'A much more normal proposal.',
         small: 'We can pretend we’re being casual about this.',
         button: 'Coffee sounds good',
+      },
+      {
+        id: 'bucket',
+        icon: '✅',
+        title: 'Got something on your bucket list?',
+        description: 'Something you’ve been wanting to tick off? Click here and tell me more.',
+        small: 'I’m in, as long as it’s legal.',
+        button: 'Tell me more',
       },
     ] satisfies { id: Choice; icon: string; title: string; description: string; small: string; button: string }[],
   },
@@ -82,7 +90,8 @@ export const content = {
       small: 'Now we just need to decide where we’re going.',
       venues: [
         { id: 'beach', icon: '🏖', label: 'Beach' },
-        { id: 'coffee', icon: '☕', label: 'Coffee' },
+        { id: 'coffee', icon: '☕', label: 'Coffee or chai' },
+        { id: 'bucket', icon: '✅', label: 'Bucket list' },
       ] satisfies { id: Venue; icon: string; label: string }[],
     },
   },
@@ -103,11 +112,31 @@ export const content = {
     button: 'Coffee it is →',
   },
 
+  venueLabels: {
+    beach: 'Beach',
+    coffee: 'Coffee or chai',
+    bucket: 'Bucket list',
+  } satisfies Record<Venue, string>,
+
+  bucketPath: {
+    headline: 'Ooh, a bucket list.',
+    line: 'Okay, I’m intrigued.',
+    ask: 'What’s one thing you’ve been wanting to do?',
+    label: 'Your bucket list item',
+    placeholder: 'A night market, a road trip, stargazing…',
+    button: 'Add it to the list →',
+    phoneHeadline: 'Noted.',
+    phoneLine: 'Good one.',
+    phoneAsk: 'Now I need your number so we can actually tick it off.',
+    phoneButton: 'Let’s do it →',
+  },
+
   date: {
     headline: 'Perfect.',
     unlocked: {
       beach: 'Beach date unlocked.',
-      coffee: 'Coffee date unlocked.',
+      coffee: 'Coffee (or chai) date unlocked.',
+      bucket: 'Bucket list item unlocked.',
     } satisfies Record<Venue, string>,
     ask: 'Now we just need a day.',
     label: 'Pick a day',
@@ -133,7 +162,9 @@ export const content = {
   textMe: {
     number: '+17732806983',
     button: 'Text me so I have yours →',
-    message: (venue: Venue, day: string) =>
-      `Hi, it's Karlie. ${venue === 'beach' ? 'Beach' : 'Coffee'}${day ? ` on ${day}` : ''}. See you then :)`,
+    message: (venue: Venue, day: string, activity: string) => {
+      const what = venue === 'bucket' ? (activity ? `Bucket list: ${activity}` : 'Bucket list') : venue === 'beach' ? 'Beach' : 'Coffee or chai'
+      return `Hi, it's Karlie. ${what}${day ? ` on ${day}` : ''}. See you then :)`
+    },
   },
 }

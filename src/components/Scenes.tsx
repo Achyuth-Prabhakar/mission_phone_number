@@ -58,3 +58,28 @@ export function CoffeeScene() {
     </div>
   )
 }
+
+/** A checklist line whose box gets ticked. */
+export function BucketScene({ activity }: { activity: string }) {
+  return (
+    <div className="flex h-44 w-full items-center justify-center rounded-3xl border border-white/70 bg-gradient-to-b from-[#fde8ef] to-[#f8cfdd] px-6 shadow-[0_20px_50px_-25px_rgba(214,51,111,0.6)]">
+      <div className="flex items-center gap-4">
+        <svg viewBox="0 0 40 40" className="h-11 w-11 shrink-0" aria-hidden>
+          <rect x="3" y="3" width="34" height="34" rx="9" fill="#fffaf8" stroke="#e88aac" strokeWidth="2.5" />
+          <motion.path
+            d="M11 21 l7 7 l12 -15"
+            fill="none"
+            stroke="#d6336f"
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 0.7, delay: 0.6, ease: 'easeOut' }}
+          />
+        </svg>
+        <p className="min-w-0 font-display text-xl leading-snug break-words text-plum">{activity}</p>
+      </div>
+    </div>
+  )
+}

@@ -25,7 +25,7 @@ export default function ChoiceScreen({ onHover, onChoose }: Props) {
         <Headline>{c.headline}</Headline>
         <Body className="mt-4">{c.sub}</Body>
       </Item>
-      <div className="mt-10 grid gap-5 md:grid-cols-3">
+      <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
         {c.options.map((option) => (
           <ChoiceCard
             key={option.id}

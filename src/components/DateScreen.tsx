@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { content, type Venue } from '../content'
-import { BeachScene, CoffeeScene } from './Scenes'
+import { BeachScene, BucketScene, CoffeeScene } from './Scenes'
 import { Body, Button, Glass, Headline, Item, Screen } from './ui'
 
 const today = () => {
@@ -9,7 +9,7 @@ const today = () => {
   return d.toISOString().slice(0, 10)
 }
 
-export default function DateScreen({ venue, onSubmit }: { venue: Venue; onSubmit: (day: string) => void }) {
+export default function DateScreen({ venue, activity, onSubmit }: { venue: Venue; activity: string; onSubmit: (day: string) => void }) {
   const c = content.date
   const [day, setDay] = useState('')
 
@@ -19,7 +19,7 @@ export default function DateScreen({ venue, onSubmit }: { venue: Venue; onSubmit
         <Headline>{c.headline}</Headline>
         <p className="mt-3 font-display text-2xl text-berry italic">{c.unlocked[venue]}</p>
       </Item>
-      <Item className="mt-6">{venue === 'beach' ? <BeachScene /> : <CoffeeScene />}</Item>
+      <Item className="mt-6">{venue === 'beach' ? <BeachScene /> : venue === 'coffee' ? <CoffeeScene /> : <BucketScene activity={activity} />}</Item>
       <Item className="mt-6">
         <Body className="text-plum">{c.ask}</Body>
       </Item>
