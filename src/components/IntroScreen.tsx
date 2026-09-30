@@ -5,29 +5,14 @@ import { Screen } from './ui'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-/** Fake-serious opener: a dramatic "we need to talk", then the relief beat a moment later. */
+/** Fake-serious opener: three short beats, then the button. */
 export default function IntroScreen({ onNext }: { onNext: () => void }) {
   const c = content.intro
   const [pokes, setPokes] = useState(0)
 
   return (
     <Screen>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3, duration: 0.8 }}
-        className="flex items-center gap-3 text-[11px] font-semibold tracking-[0.22em] text-salmon"
-      >
-        <motion.span
-          className="h-px bg-salmon/70"
-          initial={{ width: 0 }}
-          animate={{ width: 32 }}
-          transition={{ delay: 0.3, duration: 0.8, ease }}
-        />
-        {c.eyebrow}
-      </motion.div>
-
-      <h1 className="mt-6 font-display text-[3.4rem] leading-[1.02] font-medium tracking-tight text-ivory sm:text-7xl">
+      <h1 className="font-display text-[3.4rem] leading-[1.02] font-medium tracking-tight text-ivory sm:text-7xl">
         {c.headline.map((line, i) => {
           const accent = line === c.accentWord
           return (
@@ -36,7 +21,7 @@ export default function IntroScreen({ onNext }: { onNext: () => void }) {
               className="block"
               initial={{ opacity: 0, y: 26, filter: 'blur(8px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ delay: 0.8 + i * 0.5, duration: 0.9, ease }}
+              transition={{ delay: 0.4 + i * 0.6, duration: 0.9, ease }}
             >
               {accent ? (
                 <motion.button
@@ -77,33 +62,16 @@ export default function IntroScreen({ onNext }: { onNext: () => void }) {
       <motion.p
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 3, duration: 0.8, ease }}
-        className="mt-6 text-xl font-semibold text-ivory"
+        transition={{ delay: 2.6, duration: 0.8, ease }}
+        className="mt-6 text-xl text-ivory/80"
       >
-        {c.relief}
-      </motion.p>
-
-      <motion.div
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ delay: 3.4, duration: 0.6, ease }}
-        style={{ originX: 0 }}
-        className="my-6 h-px w-20 bg-salmon"
-      />
-
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 3.7, duration: 0.8 }}
-        className="text-base leading-relaxed text-ivory/70"
-      >
-        {c.body}
+        {c.sub}
       </motion.p>
 
       <motion.div
         initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 4.4, duration: 0.6, ease }}
+        transition={{ delay: 3.4, duration: 0.6, ease }}
         className="mt-9"
       >
         <motion.button

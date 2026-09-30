@@ -7,14 +7,12 @@ export const content = {
   name: 'Karlie',
 
   intro: {
-    eyebrow: 'A SMALL MATTER OF IMPORTANCE',
-    headline: ['I think we', 'need to', 'talk.'],
-    accentWord: 'talk.',
-    relief: 'And no, you didn’t do anything wrong.',
-    body: 'This is simply what happens when two people match on Tinder, move to Instagram, and someone takes things unnecessarily seriously.',
+    headline: ['Are you ready?', 'Karlie.', 'It’s time.'],
+    accentWord: 'It’s time.',
+    sub: 'Time to take the next step.',
     button: 'Okay… I’m listening',
-    // Tapping the highlighted word makes it squirm and shows one of these.
-    pokes: ['(Relax.)', '(Seriously, relax.)', '(You’re fine. Keep going.)'],
+    // Tapping the highlighted words makes them squirm and shows one of these.
+    pokes: ['Yes, now.', 'No, really. Now.', 'Okay, you’re ready.'],
   },
 
   problem: {
