@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useState, type ReactNode } from 'react'
 import { content, type Venue } from '../content'
 import { Button, Glass, Headline, Item, Screen } from './ui'
@@ -22,6 +22,8 @@ type Props = {
 export default function PhoneNumberScreen({ headline, children, buttonLabel, onSubmit }: Props) {
   const [value, setValue] = useState('')
   const valid = value.replace(/\D/g, '').length === 10
+  const [declines, setDeclines] = useState(0)
+  const { decline } = content.phoneInput
 
   return (
     <Screen>
@@ -30,9 +32,10 @@ export default function PhoneNumberScreen({ headline, children, buttonLabel, onS
       </Item>
       {children}
       <motion.form
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        key={declines}
+        initial={declines ? { x: 0 } : { opacity: 0, y: 20 }}
+        animate={declines ? { x: [0, -14, 14, -10, 10, -5, 5, 0] } : { opacity: 1, y: 0 }}
+        transition={declines ? { duration: 0.5 } : { delay: 1.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className="mt-8"
         onSubmit={(e) => {
           e.preventDefault()
@@ -57,6 +60,28 @@ export default function PhoneNumberScreen({ headline, children, buttonLabel, onS
         <Button type="submit" disabled={!valid} className="mt-5">
           {buttonLabel}
         </Button>
+        <button
+          type="button"
+          onClick={() => setDeclines((n) => n + 1)}
+          className="mt-4 w-full rounded-full px-4 py-3 text-center text-sm text-plum-soft underline decoration-rose underline-offset-4 focus-visible:ring-4 focus-visible:ring-pink/30 focus-visible:outline-none"
+        >
+          {decline.button}
+        </button>
+        <div className="mt-1 min-h-6 text-center" aria-live="polite">
+          <AnimatePresence mode="wait">
+            {declines > 0 && (
+              <motion.p
+                key={declines}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className="font-display text-lg text-berry italic"
+              >
+                {decline.rejects[Math.min(declines, decline.rejects.length) - 1]}
+              </motion.p>
+            )}
+          </AnimatePresence>
+        </div>
       </motion.form>
     </Screen>
   )

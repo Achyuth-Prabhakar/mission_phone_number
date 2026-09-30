@@ -60,6 +60,16 @@ export const content = {
   phoneInput: {
     label: 'Your number:',
     placeholder: '(555) 555-5555',
+    // A joke escape hatch: it shakes the screen and always says no.
+    decline: {
+      button: 'Don’t want to give your number? Click here to continue.',
+      rejects: [
+        'Invalid choice.',
+        'Still invalid.',
+        'That option does not exist.',
+        'I would love to be blessed by your number.',
+      ],
+    },
   },
 
   phonePath: {
