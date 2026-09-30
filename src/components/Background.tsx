@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import Bubbles from './Bubbles'
 
 export type Tint = 'default' | 'phone' | 'beach' | 'coffee'
 
@@ -32,6 +33,7 @@ export default function Background({ tint = 'default' }: { tint?: Tint }) {
         transition={{ backgroundColor: { duration: 0.8 }, x: { duration: 22, repeat: Infinity, ease: 'easeInOut' } }}
         style={{ opacity: 0.5 }}
       />
+      <Bubbles />
     </div>
   )
 }

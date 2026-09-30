@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import Background, { type Tint } from './components/Background'
+import Trail from './components/Trail'
 import BeachScreen from './components/BeachScreen'
 import BucketScreen from './components/BucketScreen'
 import ChoiceScreen from './components/ChoiceScreen'
@@ -50,6 +51,8 @@ export default function App() {
     setStep(prev)
   }
 
+  const reached = { intro: 0, problem: 1, choice: 1, phone: 2, venue: 2, beach: 2, coffee: 2, bucket: 2, bucketPhone: 2, date: 3, final: 4 }[step]
+
   const choose = (id: Choice) => go(id)
   const goDate = (v: Venue) => {
     setVenue(v)
@@ -71,6 +74,18 @@ export default function App() {
   return (
     <>
       <Background tint={tint} />
+      {/* A soft pink ripple sweeps up from the bottom on every page change. */}
+      {(trail.length > 0 || step !== 'intro') && (
+        <motion.div
+          key={step}
+          aria-hidden
+          className="pointer-events-none fixed bottom-0 left-1/2 z-30 h-[60vmax] w-[60vmax] -translate-x-1/2 translate-y-1/2 rounded-full bg-pink/25"
+          initial={{ scale: 0, opacity: 0.9 }}
+          animate={{ scale: 2.4, opacity: 0 }}
+          transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+        />
+      )}
+      {step !== 'intro' && <Trail reached={reached} />}
       {step !== 'intro' && (
         <motion.button
           type="button"
