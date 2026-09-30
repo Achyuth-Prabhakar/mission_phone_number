@@ -1,4 +1,4 @@
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import Background, { type Tint } from './components/Background'
 import BeachScreen from './components/BeachScreen'
@@ -28,6 +28,7 @@ type Step =
 
 export default function App() {
   const [step, setStep] = useState<Step>('intro')
+  const [trail, setTrail] = useState<Step[]>([])
   const [tint, setTint] = useState<Tint>('default')
   const [venue, setVenue] = useState<Venue>('coffee')
   const [activity, setActivity] = useState('')
@@ -36,10 +37,23 @@ export default function App() {
   // It reaches the owner only if she sends the prefilled text on the final screen.
   const [gaveNumber, setGaveNumber] = useState(false)
 
-  const choose = (id: Choice) => setStep(id)
+  // Every forward move records where she came from, so the back button can retrace it.
+  const go = (next: Step) => {
+    setTrail((t) => [...t, step])
+    setStep(next)
+  }
+  const back = () => {
+    const prev = trail[trail.length - 1]
+    if (!prev) return
+    setTrail((t) => t.slice(0, -1))
+    setTint('default')
+    setStep(prev)
+  }
+
+  const choose = (id: Choice) => go(id)
   const goDate = (v: Venue) => {
     setVenue(v)
-    setStep('date')
+    go('date')
   }
   const gotNumber = (v: Venue) => {
     setGaveNumber(true)
@@ -48,7 +62,7 @@ export default function App() {
   const pickVenue = (v: Venue) => {
     if (v === 'bucket') {
       setVenue('bucket')
-      setStep('bucket')
+      go('bucket')
     } else {
       goDate(v)
     }
@@ -57,9 +71,25 @@ export default function App() {
   return (
     <>
       <Background tint={tint} />
+      {step !== 'intro' && (
+        <motion.button
+          type="button"
+          onClick={back}
+          aria-label="Back"
+          initial={{ opacity: 0, x: -8 }}
+          animate={{ opacity: 1, x: 0 }}
+          whileTap={{ scale: 0.92 }}
+          className="fixed top-4 left-4 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-white/80 bg-cream/70 text-plum shadow-[0_8px_24px_-12px_rgba(139,36,86,0.5)] backdrop-blur-xl transition-colors hover:border-pink/50 focus-visible:ring-4 focus-visible:ring-pink/30 focus-visible:outline-none"
+          style={{ marginTop: 'env(safe-area-inset-top, 0px)' }}
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="M15 5l-7 7 7 7" />
+          </svg>
+        </motion.button>
+      )}
       <AnimatePresence mode="wait">
-        {step === 'intro' && <IntroScreen key="intro" onNext={() => setStep('problem')} />}
-        {step === 'problem' && <ProblemScreen key="problem" onNext={() => setStep('choice')} />}
+        {step === 'intro' && <IntroScreen key="intro" onNext={() => go('problem')} />}
+        {step === 'problem' && <ProblemScreen key="problem" onNext={() => go('choice')} />}
         {step === 'choice' && (
           <ChoiceScreen
             key="choice"
@@ -74,7 +104,7 @@ export default function App() {
             buttonLabel={content.phonePath.button}
             onSubmit={() => {
               setGaveNumber(true)
-              setStep('venue')
+              go('venue')
             }}
           >
             <Item className="mt-6">
@@ -92,7 +122,7 @@ export default function App() {
               setActivity(a)
               // Number already given on the phone-first path, otherwise ask for it next.
               if (gaveNumber) goDate('bucket')
-              else setStep('bucketPhone')
+              else go('bucketPhone')
             }}
           />
         )}
@@ -119,7 +149,7 @@ export default function App() {
             onSubmit={(d) => {
               setDay(d)
               setTint(venue === 'bucket' ? 'default' : venue)
-              setStep('final')
+              go('final')
             }}
           />
         )}
