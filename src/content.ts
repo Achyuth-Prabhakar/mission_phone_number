@@ -117,8 +117,8 @@ export const content = {
   // Supabase project that stores what she submits (see supabase.sql and the README).
   // Both values are public by design (the anon key can only add rows). Leave them empty to send nothing.
   db: {
-    url: '',
-    anonKey: '',
+    url: 'https://kwxaslvcrjdkxswzkdew.supabase.co',
+    anonKey: 'sb_publishable_dyc0Ut4YLzInz8hKH3P5Sw_jidqnImM',
   },
 
   venueLabels: {
